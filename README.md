@@ -51,7 +51,7 @@ import { LightningElement, track, api } from 'lwc';
 
 ### `this` Keyword
 
-> The `this` keyword in JavaScript refers to the top level of the current context. Here, the context is this class. Which *ready*? This class’s *ready*. The connectedCallback() method assigns the value for the top level *ready* variable.
+> The `this` keyword in JavaScript refers to the top level of the current context. Here, the context is this class. Which ***ready***? This class’s ***ready***. The connectedCallback() method assigns the value for the top level ***ready*** variable.
 
 ```Javascript
 import { LightningElement, track } from 'lwc';
