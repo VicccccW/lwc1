@@ -34,12 +34,13 @@ export default class MyComponent extends LightningElement {
 ### Decorators
 
 > Decorators are often used in JavaScript to extend the behavior of a class, property, getter, setter, or method.
-
+>
 > Examples of Lightning Web Component decorators include:
 >
 > - `@api`: Marks a property as public for use in your template or other components.
 > - `@track`: Marks a property for internal monitoring. A template or function using this property forces a component to rerender when the property’s value changes. Use this to store values locally, especially as a user interacts with your component.
 > - `@wire`: Gives you a way to get and bind data. This implementation simplifies getting data from a Salesforce org.
+>
 > You can import multiple decorators. Like:
 
 ```Javascript
