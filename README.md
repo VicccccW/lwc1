@@ -2,6 +2,10 @@
 
 ## Basic
 
+> there are 2 files,  ***eslintrc*** and ***jsconfig.json***, in the lwc folder.
+
+The Lightning Web Components extension ships by default with ESLint. ESLint is a widely used linting tool that evaluates code for errors, coding best practices, and more. Salesforce provides specific ESLint rules out of the box for you as a Lightning Web Component developer so that you can write great code. And if you make a mistake, the linting rules help you see it before you deploy your code.
+
 > The JavaScript file for a Lightning web component must include at least following code, where MyComponent is the name you assign your component class.
 
 ```Javascript

@@ -5,6 +5,9 @@
         "paths": {
             "c/hello-world": [
                 "helloWorld/helloWorld.js"
+            ],
+            "c/my-first-web-component": [
+                "myFirstWebComponent/myFirstWebComponent.js"
             ]
         }
     },
