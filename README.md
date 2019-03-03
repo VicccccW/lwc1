@@ -137,4 +137,7 @@ export default class extends LightningElement{
 }
 ```
 
+#### Call Apex method imperatively
+
+
 ## Issues
