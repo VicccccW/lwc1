@@ -49,9 +49,9 @@ import { LightningElement, track, api } from 'lwc';
 
 ## Lighting Data Service
 
-### How does it work?
+### How does it work
 
-[lwc <--> Lightning Data Service] <--> [UI API <--> sObject]
+lwc <--> Lightning Data Service <--> UI API <--> sObject
 
 ### Ways to get data from server
 
@@ -132,6 +132,5 @@ export default class extends LightningElement{
     @wire(findContacts, {searchKey:'$searchKey'}) contacts;
 }
 ```
-
 
 ## Issues
