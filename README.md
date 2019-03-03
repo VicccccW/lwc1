@@ -47,6 +47,41 @@ export default class MyComponent extends LightningElement {
 import { LightningElement, track, api } from 'lwc';
 ```
 
+## Lighting Data Service
+
+### How does it work?
+
+[lwc <--> Lightning Data Service] <--> [UI API <--> sObject]
+
+### Ways to get data from server
+
+#### Using Base Lightning Components
+
+Lightning Record Form
+Lightning Record View Form
+Lightning Record Edit Form
+
+#### Using Wire Service
+
+***Syntax***
+
+```Javascript
+import {adapterId} from 'adapterModule';
+@wire(adapterId, adapterConfig) propertyOrFunction;
+```
+
+***Usage***
+
+```Javascript
+import {LightningElement, api, wire} from 'lwc';
+import {getRecord} from 'lightning/uiRecordApi';
+
+export default class Record extends LightningElement{
+    @api recordId;
+    @wire(getRecord, {recordId:'$recordId',fields:['Account.Name']}) myProperty;
+}
+```
+
 ## Resources
 
 ### `this` Keyword
@@ -65,5 +100,38 @@ export default class App extends LightningElement {
     }
 }
 ```
+
+### Call Apex Methods from LWC
+
+1. Import Apex Methods into JS file of that LWC
+2. It now treated as a JS function
+3. We can call these functions directly from JS
+4. How to call these function?
+    1. Wire Service (must set it as @AuraEnabled(cacheable=true))
+        1. Wire apex method to a property
+        2. Wire apex method to a function
+    2. Call imperatively
+
+#### Call Apex method using wire service
+
+***Syntax***
+
+```Javascript
+import apexMethod from '@salesforce/apex/Namespace.Classname.apexMethod';
+@wire(apexMethod, {apexMethodParams}) propertyOrFunction;
+```
+
+***Usage***
+
+```Javascript
+import {LightningElement, track, wire} from 'lwc';
+import findContacts from '@salesforce/apex/ContactController.findContacts';
+
+export default class extends LightningElement{
+    @track searchKey = '';
+    @wire(findContacts, {searchKey:'$searchKey'}) contacts;
+}
+```
+
 
 ## Issues
