@@ -13,6 +13,9 @@
         <recordType>Event.Onsite_Visit</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Team_Member__c-Team Member Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Team__c-Team Layout</layout>
     </layoutAssignments>
     <recordTypeVisibilities>
@@ -25,6 +28,10 @@
         <recordType>Event.Onsite_Visit</recordType>
         <visible>false</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>Team_Member__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Team__c</tab>
         <visibility>DefaultOn</visibility>

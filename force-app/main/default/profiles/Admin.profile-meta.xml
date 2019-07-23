@@ -13,8 +13,20 @@
         <recordType>Event.Onsite_Visit</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Team_Member__c-Team Member Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Team__c-Team Layout</layout>
     </layoutAssignments>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Team_Member__c</object>
+        <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -34,6 +46,10 @@
         <recordType>Event.Onsite_Visit</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
+    <tabVisibilities>
+        <tab>Team_Member__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Team__c</tab>
         <visibility>DefaultOn</visibility>
