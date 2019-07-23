@@ -1,0 +1,18 @@
+{
+    "records": [
+        {
+            "attributes": {
+                "type": "Team__c",
+                "referenceId": "Team__cRef1"
+            },
+            "Name": "Avengers"
+        },
+        {
+            "attributes": {
+                "type": "Team__c",
+                "referenceId": "Team__cRef2"
+            },
+            "Name": "Thanos"
+        }
+    ]
+}

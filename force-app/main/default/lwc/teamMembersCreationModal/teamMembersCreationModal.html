@@ -1,0 +1,14 @@
+<template>
+    
+    <lightning-button variant="neutral"
+        label="New Members"
+        title="New Members"
+        onclick={openModal}
+        class="slds-m-left_x-small"></lightning-button>
+
+    
+    <template if:true={showModal}>
+        opened
+    </template>
+
+</template>
