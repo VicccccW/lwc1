@@ -6,4 +6,8 @@ export default class TeamMembersCreationModal extends LightningElement {
     openModal() {
         this.showModal = true;
     }
+
+    closeModal() {
+        this.showModal = false;
+    }
 }
