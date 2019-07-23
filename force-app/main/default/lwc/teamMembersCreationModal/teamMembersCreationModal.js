@@ -1,7 +1,8 @@
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 
 export default class TeamMembersCreationModal extends LightningElement {
     @track showModal = false;
+    @api recordId;
 
     openModal() {
         this.showModal = true;
@@ -10,4 +11,6 @@ export default class TeamMembersCreationModal extends LightningElement {
     closeModal() {
         this.showModal = false;
     }
+
+
 }

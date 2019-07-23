@@ -11,6 +11,9 @@
             ],
             "c/teamMembersCreationModal": [
                 "teamMembersCreationModal/teamMembersCreationModal.js"
+            ],
+            "c/teamMembersCreationForm": [
+                "teamMembersCreationForm/teamMembersCreationForm.js"
             ]
         }
     },
