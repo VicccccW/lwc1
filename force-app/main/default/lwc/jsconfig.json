@@ -9,11 +9,20 @@
             "c/myFirstWebComponent": [
                 "myFirstWebComponent/myFirstWebComponent.js"
             ],
+            "c/teamMembersCreationForm": [
+                "teamMembersCreationForm/teamMembersCreationForm.js"
+            ],
             "c/teamMembersCreationModal": [
                 "teamMembersCreationModal/teamMembersCreationModal.js"
             ],
-            "c/teamMembersCreationForm": [
-                "teamMembersCreationForm/teamMembersCreationForm.js"
+            "c/teamSelectionLookup": [
+                "teamSelectionLookup/teamSelectionLookup.js"
+            ],
+            "c/contactsSelectionLookup": [
+                "contactsSelectionLookup/contactsSelectionLookup.js"
+            ],
+            "c/LookupSearchResult": [
+                "LookupSearchResult/LookupSearchResult.js"
             ]
         }
     },

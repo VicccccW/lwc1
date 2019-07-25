@@ -1,3 +1,14 @@
 <template>
-    {recordId} - test
+    <div class="form-wrapper">
+
+        <lightning-input type="text" name="name" label="Team" value={defaultTeamName} required disabled ></lightning-input>
+
+        <c-team-selection-lookup 
+            onsearch={handleSearchTeam}
+            placeholder="Search Salesforce..."
+
+        >
+        </c-team-selection-lookup>
+        <c-contacts-selection-lookup></c-contacts-selection-lookup>
+    </div>
 </template>

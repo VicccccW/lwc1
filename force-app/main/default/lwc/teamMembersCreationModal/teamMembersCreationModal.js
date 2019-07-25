@@ -1,4 +1,10 @@
-import { LightningElement, track, api } from 'lwc';
+/* eslint-disable no-console */
+import { LightningElement, track, api, wire } from 'lwc';
+import { getRecord } from 'lightning/uiRecordApi';
+
+const FIELDS = [
+    'Team__c.Name'
+];
 
 export default class TeamMembersCreationModal extends LightningElement {
     @track showModal = false;
@@ -12,5 +18,10 @@ export default class TeamMembersCreationModal extends LightningElement {
         this.showModal = false;
     }
 
+    @wire(getRecord, { recordId: '$recordId', fields: FIELDS})
+    team;
 
+    get name() {
+        return this.team.data.fields.Name.value;
+    }
 }
