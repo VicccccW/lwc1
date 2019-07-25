@@ -130,29 +130,29 @@ export default class TeamSelectionLookup extends LightningElement {
 // STYLE EXPRESSIONS
 
     get getContainerClass() {
-        let css = 'slds-combobox_container slds-has-inline-listbox ';
-        if (this.hasFocus && this.hasResults()) {
-            css += 'slds-has-input-focus ';
-        }
-        if (this.errors.length > 0) {
-            css += 'has-custom-error';
-        } 
+        let css = 'slds-combobox_container  ';
+        // if (this.hasFocus && this.hasResults()) {
+        //     css += 'slds-has-input-focus ';
+        // }
+        // if (this.errors.length > 0) {
+        //     css += 'has-custom-error';
+        // } 
         return css;
     }
 
     get getDropdownClass() {
-        let css = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ';
-        if (this.hasFocus && this.hasResults()) {
-            css += 'slds-is-open';
-        } else {
-            css += 'slds-combobox-lookup';
-        }
+        let css = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open';
+        // if (this.hasFocus && this.hasResults()) {
+        //     css += 'slds-is-open';
+        // } else {
+        //     css += 'slds-combobox-lookup';
+        // }
         return css;
     }
 
     get getComboboxClass() {
         let css = 'slds-combobox__form-element slds-input-has-icon ';
-        css += (this.hasSelection() ? 'slds-input-has-icon_left-right' : 'slds-input-has-icon_right');
+        css += (this.hasSelection() ? 'slds-input-has-icon_left' : 'slds-input-has-icon_right');
         return css;
     }
 
@@ -166,7 +166,7 @@ export default class TeamSelectionLookup extends LightningElement {
     }
 
     get getInputClass() {
-        let css = 'slds-input slds-combobox__input has-custom-height '
+        let css = 'slds-input slds-combobox__input '
             + (this.errors.length === 0 ? '' : 'has-custom-error ');
         return css;
     }
@@ -194,7 +194,7 @@ export default class TeamSelectionLookup extends LightningElement {
     }
 
     get getListboxClass() {
-        return 'slds-listbox slds-listbox_vertical slds-dropdown_fluid '
+        return 'slds-listbox slds-listbox_vertical '
             + (this.scrollAfterNItems ? 'slds-dropdown_length-with-icon-' + this.scrollAfterNItems : '');
     }
 }
