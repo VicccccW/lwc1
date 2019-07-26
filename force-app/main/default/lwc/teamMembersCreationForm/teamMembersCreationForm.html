@@ -5,8 +5,8 @@
 
         <c-team-selection-lookup 
             onsearch={handleSearchTeam}
-            placeholder="Search Salesforce..."
-
+            onselectionchange={handleSelectionChange}
+            errors={errors}
         >
         </c-team-selection-lookup>
         <c-contacts-selection-lookup></c-contacts-selection-lookup>

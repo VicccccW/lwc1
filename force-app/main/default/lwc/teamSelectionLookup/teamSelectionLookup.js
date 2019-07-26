@@ -6,9 +6,8 @@ const SEARCH_DELAY = 300; // Wait 300 ms after user stops typing then, peform se
 
 export default class TeamSelectionLookup extends LightningElement {
 
-    @api defaultTeamId;
-    @api placeholder = '';
-    @api selection = [];
+    //@api defaultTeamId;
+    @api selection = null;
     @api errors = [];
     @api scrollAfterNItems;
 
@@ -31,6 +30,11 @@ export default class TeamSelectionLookup extends LightningElement {
 
             return result;
         });
+    }
+
+    @api
+    getSelection() {
+        return this.selection;
     }
 
 // INTERNAL FUNCTIONS
@@ -87,9 +91,8 @@ export default class TeamSelectionLookup extends LightningElement {
     }
 
     hasSelection() {
-        return this.selection.length > 0;
+        return this.selection != null;
     }
-
 
 // EVENT HANDLING
 
@@ -102,6 +105,29 @@ export default class TeamSelectionLookup extends LightningElement {
             return;
         }
         this.updateSearchTerm(event.target.value);
+    }
+
+    handleComboboxClick() {
+        // Hide combobox immediatly
+        if (this.blurTimeout) {
+            window.clearTimeout(this.blurTimeout);
+        }
+        this.hasFocus = false;
+    }
+
+    handleResultClick(event) {
+        const recordId = event.currentTarget.dataset.recordid;
+
+        // Save selection
+        let selectedItem = this.searchResults.filter(result => result.id === recordId);
+        if (selectedItem.length === 0) {
+            return;
+        }
+
+        this.selection = selectedItem[0];
+
+        // Notify parent components that selection has changed
+        this.dispatchEvent(new CustomEvent('selectionchange'));
     }
 
     handleFocus() {
@@ -125,6 +151,15 @@ export default class TeamSelectionLookup extends LightningElement {
             },
             300
         );
+    }
+
+    handleClearSelection() {
+        this.selection = null;
+        this.searchTerm = '';
+        this.searchResults = [];
+
+        // Notify parent components that selection has changed
+        this.dispatchEvent(new CustomEvent('selectionchange'));
     }
 
 // STYLE EXPRESSIONS
@@ -157,7 +192,7 @@ export default class TeamSelectionLookup extends LightningElement {
     }
 
     get getSelectIconName() {
-        return this.hasSelection() ? this.selection[0].icon : 'custom:custom5';
+        return this.hasSelection() ? this.selection.icon : 'custom:custom5';
     }
 
     get getSelectIconClass() {
@@ -166,17 +201,23 @@ export default class TeamSelectionLookup extends LightningElement {
     }
 
     get getInputClass() {
-        let css = 'slds-input slds-combobox__input '
+        let css = 'slds-input slds-combobox__input has-custom-height slds-combobox__input-value '
             + (this.errors.length === 0 ? '' : 'has-custom-error ');
+        if (this.hasSelection()) {
+            css += 'has-custom-border';
+        }
         return css;
     }
 
     get getInputValue() {
-        return this.hasSelection() ? this.selection[0].title : this.searchTerm;
+        return this.hasSelection() ? this.selection.title : this.searchTerm;
     }
 
     get getSearchIconClass() {
         let css = 'slds-input__icon slds-input__icon_right ';
+        if(this.hasSelection()) {
+            css += 'slds-hide';
+        }
         return css;
     }
 

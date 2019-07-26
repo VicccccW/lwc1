@@ -14,10 +14,19 @@
                         <!-- Text input -->
                         <input type="text" class={getInputClass} 
                             aria-autocomplete="list" aria-controls="listbox" autocomplete="off"
-                            role="textbox" id="combobox" placeholder={placeholder}
+                            role="textbox" id="combobox" placeholder="Search Salesforce..."
                             value={getInputValue} readonly={isInputReadonly}
                             onfocus={handleFocus} onblur={handleBlur} oninput={handleInput}
                             ></input>
+
+                        <!-- Spinner -->
+                        <div role="presentation" class="slds-hide slds-input__icon slds-input__icon_right slds-is-relative">
+                            <div role="status" class="slds-spinner slds-spinner_xx-small slds-spinner_delayed">
+                                <span class="slds-assistive-text">Loading...</span>
+                                <div class="slds-spinner__dot-a"></div>
+                                <div class="slds-spinner__dot-b"></div>
+                            </div>
+                        </div>
                         
                         <!-- Search icon -->
                         <lightning-icon icon-name="utility:search" size="x-small" alternative-text="Search icon"
@@ -25,7 +34,7 @@
 
                         <!-- Clear selection button icon for single entry lookups -->
                         <button title="Remove selected option" type="button"
-                             class={getClearSelectionButtonClass}>
+                            onclick={handleClearSelection} class={getClearSelectionButtonClass}>
                             <lightning-icon icon-name="utility:close" size="x-small" alternative-text="Remove selected option"
                                 class="slds-button__icon"></lightning-icon>
                         </button>

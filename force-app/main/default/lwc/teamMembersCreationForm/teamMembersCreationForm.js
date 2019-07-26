@@ -1,12 +1,14 @@
 /* eslint-disable no-console */
 
-import { LightningElement, api } from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import apexSearch from '@salesforce/apex/LookupController.search';
 
 export default class TeamMembersCreationForm extends LightningElement {
     @api defaultTeamId;
     @api defaultTeamName;
+    
+    @track errors = [];
 
     handleSearchTeam(event) {
 
@@ -21,6 +23,10 @@ export default class TeamMembersCreationForm extends LightningElement {
                 console.error('Lookup error', JSON.stringify(error));
                 this.errors = [error];
             });
+    }
+
+    handleSelectionChange() {
+        this.errors = [];
     }
 
     notifyUser(title, message, variant) {
