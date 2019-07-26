@@ -21,7 +21,14 @@ export default class TeamMembersCreationModal extends LightningElement {
     @wire(getRecord, { recordId: '$recordId', fields: FIELDS})
     team;
 
-    get name() {
+    get initParentName() {
         return this.team.data.fields.Name.value;
+    }
+
+    get initParentObject() {
+        return {id: this.recordId, 
+                sObjectType: 'Team__c', 
+                icon: 'custom:custom5', 
+                title: this.team.data.fields.Name.value};
     }
 }

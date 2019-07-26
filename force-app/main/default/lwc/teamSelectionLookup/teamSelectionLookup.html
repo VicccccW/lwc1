@@ -67,6 +67,12 @@
 
                 </div>
             </div>
+
+            <!-- Errors start -->
+            <template for:each={errors} for:item="error">
+                <label key={error.id} role="alert" class="slds-form-element__label slds-m-top_xx-small form-error">{error.message}</label>
+            </template>
+            <!-- Errors end -->
         </div>
     </div>
 </template>

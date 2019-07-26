@@ -6,10 +6,11 @@ const SEARCH_DELAY = 300; // Wait 300 ms after user stops typing then, peform se
 
 export default class TeamSelectionLookup extends LightningElement {
 
-    //@api defaultTeamId;
     @api selection = null;
     @api errors = [];
     @api scrollAfterNItems;
+    @api initParentId;
+    @api initParentName;
 
     @track searchTerm = '';
     @track searchResults = [];
@@ -70,7 +71,6 @@ export default class TeamSelectionLookup extends LightningElement {
                     const searchEvent = new CustomEvent('search', {
                         detail: {
                             searchTerm: this.cleanSearchTerm
-                            //selectedIds: this.selection.map(element => element.id)
                         }
                     });
 
@@ -126,6 +126,10 @@ export default class TeamSelectionLookup extends LightningElement {
 
         this.selection = selectedItem[0];
 
+        // Reset search
+        this.searchTerm = '';
+        this.searchResults = [];
+
         // Notify parent components that selection has changed
         this.dispatchEvent(new CustomEvent('selectionchange'));
     }
@@ -155,8 +159,6 @@ export default class TeamSelectionLookup extends LightningElement {
 
     handleClearSelection() {
         this.selection = null;
-        this.searchTerm = '';
-        this.searchResults = [];
 
         // Notify parent components that selection has changed
         this.dispatchEvent(new CustomEvent('selectionchange'));
