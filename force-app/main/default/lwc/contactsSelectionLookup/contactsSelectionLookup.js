@@ -39,23 +39,25 @@ export default class ContactsSelectionLookup extends LightningElement {
 // INTERNAL FUNCTIONS
 
     updateSearchTerm(newSearchTerm) {
-        // why this line? for what purposes?
+        // Display the searchTerm in front end
         this.searchTerm = newSearchTerm;
 
         // Compare clean new search term with current one and abort if identical
-        const newCleanSearchTerm = newSearchTerm.trim().replace(/\*/g, '').toLowerCase();
-        if (this.cleanSearchTerm === newCleanSearchTerm) {
-            return;
-        }
+        if(newSearchTerm !== '') {
+            const newCleanSearchTerm = newSearchTerm.trim().replace(/\*/g, '').toLowerCase();
+            if (this.cleanSearchTerm === newCleanSearchTerm) {
+                return;
+            }
 
-        // Save clean search term
-        this.cleanSearchTerm = newCleanSearchTerm;
+            // Save clean search term
+            this.cleanSearchTerm = newCleanSearchTerm;
+        }
 
         // Ignore search terms that are too small
-        if (newCleanSearchTerm.length < MINIMAL_SEARCH_TERM_LENGTH) {
-            this.searchResults = [];
-            return;
-        }
+        // if (newCleanSearchTerm.length < MINIMAL_SEARCH_TERM_LENGTH) {
+        //     this.searchResults = [];
+        //     return;
+        // }
 
         // Apply search throttling (prevents search if user is still typing)
         if (this.searchThrottlingTimeout) {
@@ -65,7 +67,7 @@ export default class ContactsSelectionLookup extends LightningElement {
         // eslint-disable-next-line @lwc/lwc/no-async-operation
         this.searchThrottlingTimeout = setTimeout(() => {
                 // Send search event if search term is long enougth
-                if (this.cleanSearchTerm.length >= MINIMAL_SEARCH_TERM_LENGTH) {
+                if (this.searchTerm.length === 0 || this.cleanSearchTerm.length >= MINIMAL_SEARCH_TERM_LENGTH) {
                     const searchEvent = new CustomEvent('search', {
                         detail: {
                             searchTerm: this.cleanSearchTerm,
@@ -130,6 +132,9 @@ export default class ContactsSelectionLookup extends LightningElement {
 
     handleFocus() {
         this.hasFocus = true;
+        this.updateSearchTerm(this.searchTerm);
+        console.log(this.searchTerm);
+        console.log(this.hasFocus);
     }
 
     handleBlur() {

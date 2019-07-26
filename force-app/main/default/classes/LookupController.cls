@@ -6,18 +6,30 @@ public with sharing class LookupController {
     public static List<LookupSearchResult> searchTeam(String searchTerm) {
         // Prepare query paramters
         searchTerm += '*';
-
-        // Execute search query
-        List<List<SObject>> searchResults = [FIND :searchTerm IN ALL FIELDS RETURNING
-            Team__c (Id, Name, Location__c)
-            LIMIT :MAX_RESULTS];
+        String teamIcon = 'custom:custom5';
 
         // Prepare results
         List<LookupSearchResult> results = new List<LookupSearchResult>();
+        List<Team__c> teams;
 
-        // Extract Teams & convert them into LookupSearchResult
-        String teamIcon = 'custom:custom5';
-        Team__c [] teams = ((List<Team__c>) searchResults[0]);
+        if(String.isBlank(searchTerm)) {
+            teams = [SELECT Id
+                                , Name
+                                , Location__c
+                        FROM Team__c 
+                        ORDER BY LastModifiedDate 
+                        DESC 
+                        LIMIT 5];
+        } else {
+            // Execute search query
+            List<List<SObject>> searchResults = [FIND :searchTerm IN ALL FIELDS RETURNING
+            Team__c (Id, Name, Location__c)
+            LIMIT :MAX_RESULTS];
+
+            // Extract Teams & convert them into LookupSearchResult
+            teams = ((List<Team__c>) searchResults[0]);
+        }
+
         for (Team__c team : teams) {
             results.add(new LookupSearchResult(team.Id, 'Team', teamIcon, team.Name, 'Team • '+ team.Location__c));
         }
@@ -27,8 +39,8 @@ public with sharing class LookupController {
 
     @AuraEnabled(Cacheable=true)
     public static List<LookupSearchResult> searchContacts(String parentId, String searchTerm, List<String> selectedIds) {
-        // Prepare query paramters
-        searchTerm += '*';
+
+        String contactIcon = 'standard:contact';
 
         //get existing contacts Id under this team
         List<String> existingTeamMemberIds = getExistingTeamMemberIds(parentId);
@@ -37,21 +49,38 @@ public with sharing class LookupController {
         allIds.addAll(existingTeamMemberIds);
         allIds.addAll(selectedIds);
 
-        // Execute search query
-        List<List<SObject>> searchResults = [FIND :searchTerm IN ALL FIELDS RETURNING
+        // Prepare results
+        List<LookupSearchResult> results = new List<LookupSearchResult>();
+        List<Contact> contacts;
+
+        if(String.isBlank(searchTerm)) {
+            contacts = [SELECT Id
+                                , FirstName
+                                , LastName
+                                , Email 
+                        FROM Contact 
+                        WHERE Id NOT IN :allIds 
+                        ORDER BY LastModifiedDate 
+                        DESC 
+                        LIMIT 5];
+        } else {
+
+            // Prepare query paramters
+            searchTerm += '*';
+            
+            // Execute search query
+            List<List<SObject>> searchResults = [FIND :searchTerm IN ALL FIELDS RETURNING
             Contact (Id, FirstName, LastName, Email WHERE id NOT IN :allIds)
             LIMIT :MAX_RESULTS];
 
-        // Prepare results
-        List<LookupSearchResult> results = new List<LookupSearchResult>();
+            // Extract Teams & convert them into LookupSearchResult
+            contacts = ((List<Contact>) searchResults[0]);
+        }
 
-        // Extract Teams & convert them into LookupSearchResult
-        String contactIcon = 'standard:contact';
-        Contact [] contacts = ((List<Contact>) searchResults[0]);
         for (Contact contact : contacts) {
             results.add(new LookupSearchResult(contact.Id, 'Contact', contactIcon, contact.FirstName, 'Contact • '+ contact.Email));
         }
-        
+
         return results;
     }
 
