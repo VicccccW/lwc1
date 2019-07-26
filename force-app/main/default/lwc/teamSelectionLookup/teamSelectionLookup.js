@@ -131,28 +131,28 @@ export default class TeamSelectionLookup extends LightningElement {
 
     get getContainerClass() {
         let css = 'slds-combobox_container  ';
-        // if (this.hasFocus && this.hasResults()) {
-        //     css += 'slds-has-input-focus ';
-        // }
-        // if (this.errors.length > 0) {
-        //     css += 'has-custom-error';
-        // } 
+        if (this.hasFocus && this.hasResults()) {
+            css += 'slds-has-input-focus ';
+        }
+        if (this.errors.length > 0) {
+            css += 'has-custom-error';
+        } 
         return css;
     }
 
     get getDropdownClass() {
-        let css = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open';
-        // if (this.hasFocus && this.hasResults()) {
-        //     css += 'slds-is-open';
-        // } else {
-        //     css += 'slds-combobox-lookup';
-        // }
+        let css = 'slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click ';
+        if (this.hasFocus && this.hasResults()) {
+            css += 'slds-is-open';
+        } else {
+            css += 'slds-combobox-lookup';
+        }
         return css;
     }
 
     get getComboboxClass() {
         let css = 'slds-combobox__form-element slds-input-has-icon ';
-        css += (this.hasSelection() ? 'slds-input-has-icon_left' : 'slds-input-has-icon_right');
+        css += (this.hasSelection() ? 'slds-input-has-icon_left-right' : 'slds-input-has-icon_right');
         return css;
     }
 
