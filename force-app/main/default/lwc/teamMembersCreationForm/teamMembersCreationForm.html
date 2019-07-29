@@ -11,9 +11,11 @@
         ></c-team-selection-lookup>
 
         <c-contacts-selection-lookup
+            selection={initContacts}
             onsearch={handleSearchContacts}
             onselectionchange={handleSelectionChange}
             error={errors}
+            input-disabled={disableContactInput}
         ></c-contacts-selection-lookup>
 
     </div>

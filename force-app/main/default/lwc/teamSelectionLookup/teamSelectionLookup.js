@@ -16,7 +16,7 @@ export default class TeamSelectionLookup extends LightningElement {
     @track searchResults = [];
     @track hasFocus = false;
 
-    cleanSearchTerm;
+    cleanSearchTerm = null;
     blurTimeout;
     searchThrottlingTimeout;
 
@@ -41,22 +41,25 @@ export default class TeamSelectionLookup extends LightningElement {
 // INTERNAL FUNCTIONS
 
     updateSearchTerm(newSearchTerm) {
-        // why this line? for what purposes?
+
+        //display the entered value in front end
         this.searchTerm = newSearchTerm;
 
         // Compare clean new search term with current one and abort if identical
-        const newCleanSearchTerm = newSearchTerm.trim().replace(/\*/g, '').toLowerCase();
-        if (this.cleanSearchTerm === newCleanSearchTerm) {
-            return;
-        }
+        if(newSearchTerm !== '') {
+            const newCleanSearchTerm = newSearchTerm.trim().replace(/\*/g, '').toLowerCase();
+            if (this.cleanSearchTerm === newCleanSearchTerm) {
+                return;
+            }
 
-        // Save clean search term
-        this.cleanSearchTerm = newCleanSearchTerm;
-
-        // Ignore search terms that are too small
-        if (newCleanSearchTerm.length < MINIMAL_SEARCH_TERM_LENGTH) {
-            this.searchResults = [];
-            return;
+            // Ignore search terms that are too small
+            if (this.searchTerm.length !== 0 && newCleanSearchTerm.length < MINIMAL_SEARCH_TERM_LENGTH) {
+                this.searchResults = [];
+                return;
+            }
+    
+            // Save clean search term
+            this.cleanSearchTerm = newCleanSearchTerm;
         }
 
         // Apply search throttling (prevents search if user is still typing)
@@ -67,15 +70,24 @@ export default class TeamSelectionLookup extends LightningElement {
         // eslint-disable-next-line @lwc/lwc/no-async-operation
         this.searchThrottlingTimeout = setTimeout(() => {
                 // Send search event if search term is long enougth
-                if (this.cleanSearchTerm.length >= MINIMAL_SEARCH_TERM_LENGTH) {
-                    const searchEvent = new CustomEvent('search', {
+
+                let searchEvent;
+
+                if (this.searchTerm.length === 0) {
+                    searchEvent = new CustomEvent('search', {
+                        detail: {
+                            searchTerm: this.searchTerm
+                        }
+                    });
+                } else if (this.cleanSearchTerm.length >= MINIMAL_SEARCH_TERM_LENGTH) {
+                    searchEvent = new CustomEvent('search', {
                         detail: {
                             searchTerm: this.cleanSearchTerm
                         }
                     });
-
-                    this.dispatchEvent(searchEvent);
                 }
+
+                this.dispatchEvent(searchEvent);
                 this.searchThrottlingTimeout = null;
             },
             SEARCH_DELAY
@@ -131,7 +143,13 @@ export default class TeamSelectionLookup extends LightningElement {
         this.searchResults = [];
 
         // Notify parent components that selection has changed
-        this.dispatchEvent(new CustomEvent('selectionchange'));
+        const selectionEvent = new CustomEvent('selectionchange', {
+            detail: {
+                disableContactInput: false
+            }
+        });
+
+        this.dispatchEvent(selectionEvent);
     }
 
     handleFocus() {
@@ -140,13 +158,21 @@ export default class TeamSelectionLookup extends LightningElement {
             return;
         }
         this.hasFocus = true;
+        console.log('on focus');
+        console.log(this.searchTerm);
+        this.updateSearchTerm(this.searchTerm);
     }
 
     handleBlur() {
+
         // Prevent action if selection is not allowed
         if (!this.isSelectionAllowed()) {
             return;
         }
+
+        this.searchTerm = '';
+        this.cleanSearchTerm = null;
+
         // Delay hiding combobox so that we can capture selected result
         // eslint-disable-next-line @lwc/lwc/no-async-operation
         this.blurTimeout = window.setTimeout(() => {
@@ -161,7 +187,14 @@ export default class TeamSelectionLookup extends LightningElement {
         this.selection = null;
 
         // Notify parent components that selection has changed
-        this.dispatchEvent(new CustomEvent('selectionchange'));
+        const selectionEvent = new CustomEvent('selectionchange', {
+            detail: {
+                disableContactInput: true,
+                clearContactSelect: true
+            }
+        });
+
+        this.dispatchEvent(selectionEvent);
     }
 
 // STYLE EXPRESSIONS

@@ -9,6 +9,7 @@ export default class ContactsSelectionLookup extends LightningElement {
     @api selection = [];
     @api errors = [];
     @api scrollAfterNItems;
+    @api inputDisabled;
 
     @track searchTerm = '';
     @track searchResults = [];
@@ -49,15 +50,15 @@ export default class ContactsSelectionLookup extends LightningElement {
                 return;
             }
 
+            // Ignore search terms that are too small
+            if (this.searchTerm.length !== 0 && newCleanSearchTerm.length < MINIMAL_SEARCH_TERM_LENGTH) {
+                this.searchResults = [];
+                return;
+            }
+
             // Save clean search term
             this.cleanSearchTerm = newCleanSearchTerm;
         }
-
-        // Ignore search terms that are too small
-        // if (newCleanSearchTerm.length < MINIMAL_SEARCH_TERM_LENGTH) {
-        //     this.searchResults = [];
-        //     return;
-        // }
 
         // Apply search throttling (prevents search if user is still typing)
         if (this.searchThrottlingTimeout) {
@@ -67,16 +68,24 @@ export default class ContactsSelectionLookup extends LightningElement {
         // eslint-disable-next-line @lwc/lwc/no-async-operation
         this.searchThrottlingTimeout = setTimeout(() => {
                 // Send search event if search term is long enougth
-                if (this.searchTerm.length === 0 || this.cleanSearchTerm.length >= MINIMAL_SEARCH_TERM_LENGTH) {
-                    const searchEvent = new CustomEvent('search', {
+
+                let searchEvent;
+
+                if (this.searchTerm.length === 0) {
+                    searchEvent = new CustomEvent('search', {
                         detail: {
-                            searchTerm: this.cleanSearchTerm,
-                            selectedIds: this.selection.map(element => element.id)
+                            searchTerm: this.searchTerm
                         }
                     });
-
-                    this.dispatchEvent(searchEvent);
+                } else if (this.cleanSearchTerm.length >= MINIMAL_SEARCH_TERM_LENGTH) {
+                    searchEvent = new CustomEvent('search', {
+                        detail: {
+                            searchTerm: this.cleanSearchTerm
+                        }
+                    });
                 }
+
+                this.dispatchEvent(searchEvent);
                 this.searchThrottlingTimeout = null;
             },
             SEARCH_DELAY
@@ -133,16 +142,19 @@ export default class ContactsSelectionLookup extends LightningElement {
     handleFocus() {
         this.hasFocus = true;
         this.updateSearchTerm(this.searchTerm);
-        console.log(this.searchTerm);
-        console.log(this.hasFocus);
     }
 
     handleBlur() {
+
+        this.searchTerm = '';
+        this.cleanSearchTerm = null;
+        
         // Delay hiding combobox so that we can capture selected result
         // eslint-disable-next-line @lwc/lwc/no-async-operation
         this.blurTimeout = window.setTimeout(() => {
                 this.hasFocus = false;
                 this.blurTimeout = null;
+                this.searchTerm = '';
             },
             300
         );
@@ -221,6 +233,10 @@ export default class ContactsSelectionLookup extends LightningElement {
 
     get isInputReadonly() {
         return false;
+    }
+
+    get isInputDisabled() {
+        return this.inputDisabled;
     }
 
     get isExpanded() {

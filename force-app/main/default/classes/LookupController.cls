@@ -4,8 +4,7 @@ public with sharing class LookupController {
 
     @AuraEnabled(Cacheable=true)
     public static List<LookupSearchResult> searchTeam(String searchTerm) {
-        // Prepare query paramters
-        searchTerm += '*';
+        
         String teamIcon = 'custom:custom5';
 
         // Prepare results
@@ -21,6 +20,10 @@ public with sharing class LookupController {
                         DESC 
                         LIMIT 5];
         } else {
+
+            // Prepare query paramters
+            searchTerm += '*';
+
             // Execute search query
             List<List<SObject>> searchResults = [FIND :searchTerm IN ALL FIELDS RETURNING
             Team__c (Id, Name, Location__c)
@@ -67,7 +70,7 @@ public with sharing class LookupController {
 
             // Prepare query paramters
             searchTerm += '*';
-            
+
             // Execute search query
             List<List<SObject>> searchResults = [FIND :searchTerm IN ALL FIELDS RETURNING
             Contact (Id, FirstName, LastName, Email WHERE id NOT IN :allIds)
@@ -78,7 +81,7 @@ public with sharing class LookupController {
         }
 
         for (Contact contact : contacts) {
-            results.add(new LookupSearchResult(contact.Id, 'Contact', contactIcon, contact.FirstName, 'Contact • '+ contact.Email));
+            results.add(new LookupSearchResult(contact.Id, 'Contact', contactIcon, contact.FirstName + ' ' + contact.LastName, contact.Email));
         }
 
         return results;

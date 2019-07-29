@@ -9,6 +9,9 @@ export default class TeamMembersCreationForm extends LightningElement {
     @api initParentId;
     @api initParentName;
     @api initParentObject;
+    
+        initContacts = [];
+    disableContactInput = false;
 
     @track errors = [];
 
@@ -44,8 +47,16 @@ export default class TeamMembersCreationForm extends LightningElement {
             });
     }
 
-    handleSelectionChange() {
+    handleSelectionChange(event) {
         this.errors = [];
+
+        if(event.detail) {
+            this.disableContactInput = event.detail.disableContactInput;
+
+            if(event.detail.clearContactSelect) {
+                this.initContacts = [];
+            }
+        }
     }
 
     notifyUser(title, message, variant) {

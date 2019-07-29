@@ -33,10 +33,6 @@ export default class TeamMembersCreationModal extends LightningElement {
     }
 }
 
-// todo: when clean team select, clear contact select by an event and make it disable
-// todo: fix bug
-// todo: make contacts field disable when team is empty 
-// todo: make contacts field enable when team is selected
 // when both field entered, enable save and close 
 // when save and close enable, call apex to handle the dml
 // enable cancel to send an event, reinit all 
