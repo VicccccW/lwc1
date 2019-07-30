@@ -6,11 +6,11 @@ import apexSearchTeam from '@salesforce/apex/LookupController.searchTeam';
 import apexSearchContacts from '@salesforce/apex/LookupController.searchContacts';
 
 export default class TeamMembersCreationForm extends LightningElement {
-    @api initParentId;
-    @api initParentName;
-    @api initParentObject;
+    @api teamId;
+    @api teamName;
+    @api teamObject;
     
-        initContacts = [];
+    contacts = [];
     disableContactInput = false;
 
     @track errors = [];
@@ -32,7 +32,7 @@ export default class TeamMembersCreationForm extends LightningElement {
 
     handleSearchContacts(event) {
 
-        apexSearchContacts({ parentId: this.parentId
+        apexSearchContacts({ parentId: this.teamId
                             , searchTerm: event.detail.searchTerm
                             , selectedIds: event.detail.selectedIds})
             .then(results => {
@@ -54,7 +54,11 @@ export default class TeamMembersCreationForm extends LightningElement {
             this.disableContactInput = event.detail.disableContactInput;
 
             if(event.detail.clearContactSelect) {
-                this.initContacts = [];
+                this.contacts = [];
+            }
+
+            if(event.detail.teamId) {
+                this.teamId = event.detail.teamId;
             }
         }
     }

@@ -145,7 +145,8 @@ export default class TeamSelectionLookup extends LightningElement {
         // Notify parent components that selection has changed
         const selectionEvent = new CustomEvent('selectionchange', {
             detail: {
-                disableContactInput: false
+                disableContactInput: false,
+                teamId: recordId
             }
         });
 
@@ -158,8 +159,6 @@ export default class TeamSelectionLookup extends LightningElement {
             return;
         }
         this.hasFocus = true;
-        console.log('on focus');
-        console.log(this.searchTerm);
         this.updateSearchTerm(this.searchTerm);
     }
 

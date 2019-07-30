@@ -47,7 +47,7 @@ public with sharing class LookupController {
 
         //get existing contacts Id under this team
         List<String> existingTeamMemberIds = getExistingTeamMemberIds(parentId);
-
+        System.debug(parentId);
         List<String> allIds = new List<String>();
         allIds.addAll(existingTeamMemberIds);
         allIds.addAll(selectedIds);

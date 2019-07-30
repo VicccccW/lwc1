@@ -56,6 +56,8 @@
         <excludeButtons>MassChangeOwner</excludeButtons>
         <excludeButtons>New</excludeButtons>
         <fields>NAME</fields>
+        <fields>Contact.CNTC_FIRST_NAME</fields>
+        <fields>Contact.NAME</fields>
         <relatedList>Team_Member__c.Team__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>

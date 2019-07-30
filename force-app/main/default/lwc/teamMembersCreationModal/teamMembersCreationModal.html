@@ -25,14 +25,14 @@
    
                <!-- modal body start -->
                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <c-team-members-creation-form init-parent-id={recordId} init-parent-name={initParentName} init-parent-object={initParentObject}>
+                    <c-team-members-creation-form team-id={recordId} team-name={initParentName} team-object={initParentObject}>
                     </c-team-members-creation-form>
                </div>
    
                <!-- modal footer start-->
                <footer class="slds-modal__footer slds-modal__footer_directional">
-                  <button class="slds-button slds-button_destructive" disabled>Cancel</button>
-                  <button class="slds-button slds-button_brand" disabled>Save & Close</button>
+                  <button class="slds-button slds-button_destructive" onclick={handleCancel} disabled>Cancel</button>
+                  <button class="slds-button slds-button_brand" onclick={handleSave} disabled>Save & Close</button>
                   <!-- <button class="slds-button slds-button_neutral" onclick={closeModal}>Close</button> -->
                </footer>
    

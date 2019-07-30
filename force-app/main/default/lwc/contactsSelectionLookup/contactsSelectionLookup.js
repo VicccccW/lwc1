@@ -74,13 +74,15 @@ export default class ContactsSelectionLookup extends LightningElement {
                 if (this.searchTerm.length === 0) {
                     searchEvent = new CustomEvent('search', {
                         detail: {
-                            searchTerm: this.searchTerm
+                            searchTerm: this.searchTerm,
+                            selectedIds: this.selection.map(element => element.id)
                         }
                     });
                 } else if (this.cleanSearchTerm.length >= MINIMAL_SEARCH_TERM_LENGTH) {
                     searchEvent = new CustomEvent('search', {
                         detail: {
-                            searchTerm: this.cleanSearchTerm
+                            searchTerm: this.cleanSearchTerm,
+                            selectedIds: this.selection.map(element => element.id)
                         }
                     });
                 }
@@ -148,7 +150,7 @@ export default class ContactsSelectionLookup extends LightningElement {
 
         this.searchTerm = '';
         this.cleanSearchTerm = null;
-        
+
         // Delay hiding combobox so that we can capture selected result
         // eslint-disable-next-line @lwc/lwc/no-async-operation
         this.blurTimeout = window.setTimeout(() => {

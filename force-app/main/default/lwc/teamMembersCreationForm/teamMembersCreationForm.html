@@ -1,17 +1,17 @@
 <template>
     <div class="form-wrapper">
 
-        <lightning-input type="text" name="name" label="Team" value={initParentName} required disabled ></lightning-input>
+        <!-- <lightning-input type="text" name="name" label="Team" value={teamName} required disabled ></lightning-input> -->
 
         <c-team-selection-lookup 
-            selection={initParentObject}
+            selection={teamObject}
             onsearch={handleSearchTeam}
             onselectionchange={handleSelectionChange}
             errors={errors}
         ></c-team-selection-lookup>
 
         <c-contacts-selection-lookup
-            selection={initContacts}
+            selection={contacts}
             onsearch={handleSearchContacts}
             onselectionchange={handleSelectionChange}
             error={errors}

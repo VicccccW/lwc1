@@ -31,6 +31,15 @@ export default class TeamMembersCreationModal extends LightningElement {
                 icon: 'custom:custom5', 
                 title: this.team.data.fields.Name.value};
     }
+
+    handleCancel() {
+
+    }
+
+    handleSave() {
+        
+    }
+
 }
 
 // when both field entered, enable save and close 
