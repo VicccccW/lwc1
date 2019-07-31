@@ -108,7 +108,6 @@ export default class ContactsSelectionLookup extends LightningElement {
     // The difference is that the oninput event occurs immediately after the value of an element has changed, 
     // while onchange occurs when the element loses focus, after the content has been changed. 
     handleInput(event) {
-
         this.updateSearchTerm(event.target.value);
     }
 
@@ -139,6 +138,17 @@ export default class ContactsSelectionLookup extends LightningElement {
 
         // Notify parent components that selection has changed
         this.dispatchEvent(new CustomEvent('selectionchange'));
+
+        // Notify Root components that Contact lookup component has changed
+        const selectionEvent = new CustomEvent('LOOKUP_ContactSelectionLookup', {
+            detail: {
+                disabledRootButton: false
+            },
+            bubbles: true,
+            composed: true
+        });
+
+        this.dispatchEvent(selectionEvent); 
     }
 
     handleFocus() {
@@ -147,7 +157,6 @@ export default class ContactsSelectionLookup extends LightningElement {
     }
 
     handleBlur() {
-
         this.searchTerm = '';
         this.cleanSearchTerm = null;
 
@@ -167,13 +176,19 @@ export default class ContactsSelectionLookup extends LightningElement {
         this.selection = this.selection.filter(item => item.id !== recordId);
         // Notify parent components that selection has changed
         this.dispatchEvent(new CustomEvent('selectionchange'));
-    }
 
-    handleClearSelection() {
-        this.selection = null;
+        if(this.selection.length === 0) {
+            // Notify Root components that Contact lookup component has changed
+            const selectionEvent = new CustomEvent('LOOKUP_ContactSelectionLookup', {
+                detail: {
+                    disabledRootButton: true
+                },
+                bubbles: true,
+                composed: true
+            });
 
-        // Notify parent components that selection has changed
-        this.dispatchEvent(new CustomEvent('selectionchange'));
+            this.dispatchEvent(selectionEvent); 
+        }
     }
 
 // STYLE EXPRESSIONS

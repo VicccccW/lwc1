@@ -23,6 +23,9 @@
             ],
             "c/LookupSearchResult": [
                 "LookupSearchResult/LookupSearchResult.js"
+            ],
+            "c/pubsub": [
+                "pubsub/pubsub.js"
             ]
         }
     },

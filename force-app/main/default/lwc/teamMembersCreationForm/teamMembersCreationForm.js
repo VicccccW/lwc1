@@ -1,5 +1,4 @@
 /* eslint-disable no-console */
-
 import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import apexSearchTeam from '@salesforce/apex/LookupController.searchTeam';
@@ -9,12 +8,13 @@ export default class TeamMembersCreationForm extends LightningElement {
     @api teamId;
     @api teamName;
     @api teamObject;
-    
-    contacts = [];
-    disableContactInput = false;
 
     @track errors = [];
-
+    
+    // reset this will clear the child Contact Lookup component selection property
+    contacts = [];
+    disableContactInput = false;
+    
     handleSearchTeam(event) {
 
         apexSearchTeam({ searchTerm : event.detail.searchTerm })
@@ -24,8 +24,6 @@ export default class TeamMembersCreationForm extends LightningElement {
             })
             .catch(error => {
                 this.notifyUser('Lookup Error', 'An error occured while searching with the lookup field.', 'error');
-                // eslint-disable-next-line no-console
-                console.error('Lookup error', JSON.stringify(error));
                 this.errors = [error];
             });
     }
@@ -41,8 +39,6 @@ export default class TeamMembersCreationForm extends LightningElement {
             })
             .catch(error => {
                 this.notifyUser('Lookup Error', 'An error occured while searching with the lookup field.', 'error');
-                // eslint-disable-next-line no-console
-                console.error('Lookup error', JSON.stringify(error));
                 this.errors = [error];
             });
     }
@@ -51,12 +47,16 @@ export default class TeamMembersCreationForm extends LightningElement {
         this.errors = [];
 
         if(event.detail) {
+            
+            //if Team lookup component changed
             this.disableContactInput = event.detail.disableContactInput;
 
+            //if Team lookup component cleared
             if(event.detail.clearContactSelect) {
                 this.contacts = [];
             }
 
+            //if Team lookup component clicked
             if(event.detail.teamId) {
                 this.teamId = event.detail.teamId;
             }
