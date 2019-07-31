@@ -41,7 +41,6 @@ export default class TeamSelectionLookup extends LightningElement {
 // INTERNAL FUNCTIONS
 
     updateSearchTerm(newSearchTerm) {
-
         //display the entered value in front end
         this.searchTerm = newSearchTerm;
 
@@ -163,7 +162,6 @@ export default class TeamSelectionLookup extends LightningElement {
     }
 
     handleBlur() {
-
         // Prevent action if selection is not allowed
         if (!this.isSelectionAllowed()) {
             return;
@@ -188,8 +186,7 @@ export default class TeamSelectionLookup extends LightningElement {
         // Notify parent components that selection has changed
         const selectionEvent = new CustomEvent('selectionchange', {
             detail: {
-                disableContactInput: true,
-                clearContactSelect: true
+                disableContactInput: true
             }
         });
 

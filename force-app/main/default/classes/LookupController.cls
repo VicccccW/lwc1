@@ -2,7 +2,7 @@ public with sharing class LookupController {
 
     private final static Integer MAX_RESULTS = 5;
 
-    @AuraEnabled(Cacheable=true)
+    @AuraEnabled(Cacheable=false)
     public static List<LookupSearchResult> searchTeam(String searchTerm) {
         
         String teamIcon = 'custom:custom5';
@@ -40,17 +40,18 @@ public with sharing class LookupController {
         return results;
     }
 
-    @AuraEnabled(Cacheable=true)
+    @AuraEnabled(Cacheable=false)
     public static List<LookupSearchResult> searchContacts(String parentId, String searchTerm, List<String> selectedIds) {
 
         String contactIcon = 'standard:contact';
 
         //get existing contacts Id under this team
         List<String> existingTeamMemberIds = getExistingTeamMemberIds(parentId);
-        System.debug(parentId);
         List<String> allIds = new List<String>();
         allIds.addAll(existingTeamMemberIds);
         allIds.addAll(selectedIds);
+        System.debug(existingTeamMemberIds);
+        System.debug(selectedIds);
 
         // Prepare results
         List<LookupSearchResult> results = new List<LookupSearchResult>();

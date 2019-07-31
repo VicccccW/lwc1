@@ -3,6 +3,7 @@ import { LightningElement, api, track } from 'lwc';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import apexSearchTeam from '@salesforce/apex/LookupController.searchTeam';
 import apexSearchContacts from '@salesforce/apex/LookupController.searchContacts';
+import apexSaveTeamMembers from '@salesforce/apex/TeamMembersController.saveTeamMembers';
 
 export default class TeamMembersCreationForm extends LightningElement {
     @api teamId;
@@ -11,10 +12,9 @@ export default class TeamMembersCreationForm extends LightningElement {
 
     @track errors = [];
     
-    // reset this will clear the child Contact Lookup component selection property
-    contacts = [];
     disableContactInput = false;
-    
+    contactIds = [];
+
     handleSearchTeam(event) {
 
         apexSearchTeam({ searchTerm : event.detail.searchTerm })
@@ -49,17 +49,15 @@ export default class TeamMembersCreationForm extends LightningElement {
         if(event.detail) {
             
             //if Team lookup component changed
-            this.disableContactInput = event.detail.disableContactInput;
-
-            //if Team lookup component cleared
-            if(event.detail.clearContactSelect) {
-                this.contacts = [];
+            if(event.detail.disableContactInput != null) {
+                this.template.querySelector('c-contacts-selection-lookup').setInputDisabled(event.detail.disableContactInput);
             }
 
             //if Team lookup component clicked
             if(event.detail.teamId) {
                 this.teamId = event.detail.teamId;
             }
+            
         }
     }
 
@@ -67,5 +65,25 @@ export default class TeamMembersCreationForm extends LightningElement {
         // Notify via toast
         const toastEvent = new ShowToastEvent({ title, message, variant });
         this.dispatchEvent(toastEvent);
+    }
+
+    @api
+    handleSaveTeamMembers() {
+        //this.template.querySelector('c-contacts-selection-lookup').handleSaveTeamMembers();
+        const selectedContacts = this.template.querySelector('c-contacts-selection-lookup').getSelection();
+        this.contactIds = selectedContacts.map(element => element.id);
+        
+        return apexSaveTeamMembers({ teamId: this.teamId
+                            , contactIds: this.contactIds})
+            .then(() => {
+                //console.log(JSON.stringify(results));
+                
+                //dispatch success message 
+                this.notifyUser('Save Success', 'New team members created successfully.', 'success');
+            })
+            .catch(error => {
+                this.notifyUser('Lookup Error', 'An error occured while saving team members.', 'error');
+                this.errors = [error];
+            });
     }
 }

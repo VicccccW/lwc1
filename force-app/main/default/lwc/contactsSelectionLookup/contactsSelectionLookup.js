@@ -37,6 +37,16 @@ export default class ContactsSelectionLookup extends LightningElement {
         return this.selection;
     }
 
+    @api 
+    setInputDisabled(disabled) {
+        if(disabled) {
+            this.inputDisabled = true;
+            this.selection = [];
+        } else {
+            this.inputDisabled = false;
+        }
+    }
+
 // INTERNAL FUNCTIONS
 
     updateSearchTerm(newSearchTerm) {
@@ -137,10 +147,12 @@ export default class ContactsSelectionLookup extends LightningElement {
         this.searchResults = [];
 
         // Notify parent components that selection has changed
-        this.dispatchEvent(new CustomEvent('selectionchange'));
+        const selectionEventParent = new CustomEvent('selectionchange');
+
+        this.dispatchEvent(selectionEventParent);
 
         // Notify Root components that Contact lookup component has changed
-        const selectionEvent = new CustomEvent('LOOKUP_ContactSelectionLookup', {
+        const selectionEventRoot = new CustomEvent('LOOKUP_ContactSelectionLookup', {
             detail: {
                 disabledRootButton: false
             },
@@ -148,7 +160,7 @@ export default class ContactsSelectionLookup extends LightningElement {
             composed: true
         });
 
-        this.dispatchEvent(selectionEvent); 
+        this.dispatchEvent(selectionEventRoot); 
     }
 
     handleFocus() {

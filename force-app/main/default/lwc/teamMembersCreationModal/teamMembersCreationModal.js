@@ -69,13 +69,14 @@ export default class TeamMembersCreationModal extends LightningElement {
     }
 
     handleCancel() {
-
+        this.closeModal();
     }
 
     handleSave() {
-        
+        this.template.querySelector('c-team-members-creation-form')
+        .handleSaveTeamMembers()
+        .then(() => this.closeModal());
     }
-
 }
 
 // when both field entered, enable save and close 
