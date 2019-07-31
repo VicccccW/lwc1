@@ -152,7 +152,7 @@ export default class ContactsSelectionLookup extends LightningElement {
         this.dispatchEvent(selectionEventParent);
 
         // Notify Root components that Contact lookup component has changed
-        const selectionEventRoot = new CustomEvent('LOOKUP_ContactSelectionLookup', {
+        const selectionEventRoot = new CustomEvent('GLOBAL_TOGGLE_MODAL_BUTTON', {
             detail: {
                 disabledRootButton: false
             },
@@ -191,7 +191,7 @@ export default class ContactsSelectionLookup extends LightningElement {
 
         if(this.selection.length === 0) {
             // Notify Root components that Contact lookup component has changed
-            const selectionEvent = new CustomEvent('LOOKUP_ContactSelectionLookup', {
+            const selectionEvent = new CustomEvent('GLOBAL_TOGGLE_MODAL_BUTTON', {
                 detail: {
                     disabledRootButton: true
                 },
@@ -252,6 +252,9 @@ export default class ContactsSelectionLookup extends LightningElement {
 
     get getSearchIconClass() {
         let css = 'slds-input__icon slds-input__icon_right ';
+        if(this.inputDisabled) {
+            css += 'slds-hide';
+        }
         return css;
     }
 

@@ -15,15 +15,15 @@ export default class TeamMembersCreationModal extends LightningElement {
 
         // this is an initialzed object / instance of the class, which in this case is TeamMembersCreationModal class
         // bind() create a new function
-        // while if pass in this.handleButtonToggle(), it's undefined
+        // while if pass in this.handleToggleButton(), it's undefined
         // https://www.w3schools.com/jsref/met_document_addeventlistener.asp
         // https://stackoverflow.com/questions/2236747/use-of-the-javascript-bind-method
-        this.addEventListener('LOOKUP_ContactSelectionLookup', this.handleButtonToggle.bind(this));
+        this.addEventListener('GLOBAL_TOGGLE_MODAL_BUTTON', this.handleToggleButton.bind(this));
     }
 
     // does not work
     // connectedCallback() {
-    //     registerListener('LOOKUP_ContactSelectionLookup', this.handleButtonToggle, this);
+    //     registerListener('GLOBAL_TOGGLE_MODAL_BUTTON', this.handleToggleButton, this);
     // }
 
     // disconnectedCallback() {
@@ -31,17 +31,21 @@ export default class TeamMembersCreationModal extends LightningElement {
     //     unregisterAllListeners(this);
     // }
 
-    handleButtonToggle(event) {
+    handleToggleButton(event) {
         //disable buttons 
         if(event.detail.disabledRootButton) {
             //disable button
             this.template.querySelectorAll('button').forEach(element => {
-                element.setAttribute("disabled", null);
+                if(element.name !== "Close"){
+                    element.setAttribute("disabled", null);
+                }
             });
         } else {
             // enable buttons
             this.template.querySelectorAll('button').forEach(element => {
-                element.removeAttribute("disabled");
+                if(element.name !== "Close"){
+                    element.removeAttribute("disabled");
+                }
             });
         }
     }

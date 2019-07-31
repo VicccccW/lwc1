@@ -191,6 +191,18 @@ export default class TeamSelectionLookup extends LightningElement {
         });
 
         this.dispatchEvent(selectionEvent);
+
+        
+        // Notify Root components that Contact lookup component has changed
+        const selectionEventRoot = new CustomEvent('GLOBAL_TOGGLE_MODAL_BUTTON', {
+            detail: {
+                disabledRootButton: true
+            },
+            bubbles: true,
+            composed: true
+        });
+
+        this.dispatchEvent(selectionEventRoot); 
     }
 
 // STYLE EXPRESSIONS

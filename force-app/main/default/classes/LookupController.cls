@@ -50,8 +50,6 @@ public with sharing class LookupController {
         List<String> allIds = new List<String>();
         allIds.addAll(existingTeamMemberIds);
         allIds.addAll(selectedIds);
-        System.debug(existingTeamMemberIds);
-        System.debug(selectedIds);
 
         // Prepare results
         List<LookupSearchResult> results = new List<LookupSearchResult>();
